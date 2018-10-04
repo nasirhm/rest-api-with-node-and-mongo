@@ -41,7 +41,10 @@ const teams = [{
 	conference : "AFC"
 }
 ]
-
+const db = {
+	player : players,
+	team : teams
+}
 
 // router.get('/players', (req, res) => {
 // 			 res.json({note : "Hey it worked", 
@@ -57,20 +60,29 @@ const teams = [{
 // });
 
 router.get('/:resource', (req, res) => {
-		const resource = req.params.resource;
-		if (resource == "players"){
-			 res.json({note : "Hey it worked", 
-			 			data : players
-						 });
-						 return
+		const resource = req.params.resource
+		const data = db[resource]
+		if(data == null){
+			res.json({connection : "fail", message : "Invalid Route"});
+			return;
 		}
-		if (resource == "teams"){
-			res.json({note : "Hey it worked", 
-						data : teams
-						});
-						return
-	   }
-	    res.json({connection : "fail", message : "Invalid Route"});
+		 res.json({
+			 confirmation : "success",
+			 data : data
+		 });
+
+		// 	if (resource == "players"){
+	// 		 res.json({note : "Hey it worked", 
+	// 		 			data : players
+	// 					 });
+	// 					 return
+	// 	}
+	// 	if (resource == "teams"){
+	// 		res.json({note : "Hey it worked", 
+	// 					data : teams
+	// 					});
+	// 					return
+	//    }
 	});
 
 module.exports = router
